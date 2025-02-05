@@ -60,34 +60,19 @@ def ceil(x):
 
 def transposition(text, secret_key, decrypt=False):
     if decrypt:
-        # The original grid had 'secret_key' columns.
-        num_columns = secret_key
-        # Use ceil to determine how many rows there were.
-        num_rows = ceil(len(text) / secret_key)
-        # Determine how many columns received an extra character.
-        extra_columns = len(text) % secret_key
-
-        # Split the encrypted text into its original column chunks.
-        cols = []
-        start = 0
-        for col in range(num_columns):
-            # If this column got an extra character, its length is num_rows;
-            # otherwise, it's one shorter.
-            if col < extra_columns:
-                col_len = num_rows
-            else:
-                col_len = num_rows - 1
-            chunk = text[start : start + col_len]
-            cols.append(chunk)
-            start += col_len
-
-        # Reconstruct the original text by reading row by row.
-        result = ""
-        for row in range(num_rows):
-            for col in range(num_columns):
-                if row < len(cols[col]):  # Only add if this column has a character in this row.
-                    result += cols[col][row]
-        return result
+        num_of_cols = ceil(len(text) / secret_key)
+        num_of_rows = secret_key
+        num_of_shaded_boxes = (num_of_cols * num_of_rows) - len(text)
+        plaintext = [""] * num_of_cols
+        col = 0
+        row = 0
+        for symbol in text:
+            plaintext[col] += symbol
+            col += 1
+            if (col == num_of_cols) or (col == num_of_cols - 1 and row >= num_of_rows - num_of_shaded_boxes):
+                col = 0
+                row += 1
+        result = "".join(plaintext)
     
     else:
         result = ""
