@@ -65,7 +65,7 @@ def transposition(text, secret_key, decrypt=False):
 
         # Number of rows is determined by the secret key (grid height)
         num_of_rows = secret_key
-
+    
         # Calculate how many empty (shaded) boxes exist at the end of the last row
         num_of_shaded_boxes = (num_of_cols * num_of_rows) - len(text)
 
@@ -90,6 +90,7 @@ def transposition(text, secret_key, decrypt=False):
         result = "".join(plaintext)
     
     else:
+        result = ""
         for i in range(secret_key):
             for j in range(i, len(text), secret_key):  # iterate through the text with the step of the secret key
                 result += text[j]
