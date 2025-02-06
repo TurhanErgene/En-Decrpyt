@@ -90,10 +90,10 @@ def transposition(text, secret_key, decrypt=False):
         result = "".join(plaintext)
     
     else:
-        result = ""
         for i in range(secret_key):
             for j in range(i, len(text), secret_key):  # iterate through the text with the step of the secret key
                 result += text[j]
+        
     return result
 
 
@@ -123,6 +123,11 @@ def menu():
 
     if encOrDec in ["e", "d"] and method in ["s", "t"] and secret_key.isdigit():
         secret_key = int(secret_key)
+
+        if method == "s" and (secret_key < 0 or secret_key > 256):
+            print("Invalid key! For substitution, the key must be between 0 and 256.")
+            menu()
+
         if encOrDec == "e":
             encrypt(secret_key, file_name, method)
         else:
