@@ -58,6 +58,7 @@ def ceil(x):
     else:
         return n
 
+
 def transposition(text, secret_key, decrypt=False):
     if decrypt:
         # Calculate number of columns (grid width)
@@ -65,7 +66,7 @@ def transposition(text, secret_key, decrypt=False):
 
         # Number of rows is determined by the secret key (grid height)
         num_of_rows = secret_key
-    
+
         # Calculate how many empty (shaded) boxes exist at the end of the last row
         num_of_shaded_boxes = (num_of_cols * num_of_rows) - len(text)
 
@@ -82,25 +83,29 @@ def transposition(text, secret_key, decrypt=False):
             col += 1  # Move to the next column
 
             # If we reach the last column or the last valid position before shaded boxes, move to next row
-            if (col == num_of_cols) or (col == num_of_cols - 1 and row >= num_of_rows - num_of_shaded_boxes):
+            if (col == num_of_cols) or (
+                col == num_of_cols - 1 and row >= num_of_rows - num_of_shaded_boxes
+            ):
                 col = 0  # Reset to first column
                 row += 1  # Move to next row
 
         # Join the plaintext columns row by row to reconstruct the original message
         result = "".join(plaintext)
-    
+
     else:
         result = ""
         for i in range(secret_key):
-            for j in range(i, len(text), secret_key):  # iterate through the text with the step of the secret key
+            for j in range(
+                i, len(text), secret_key
+            ):  # iterate through the text with the step of the secret key
                 result += text[j]
-        
+
     return result
 
 
 def readFile(file):
     try:
-        with open(file, "r") as f:
+        with open(file, "r", encoding="utf-8", errors="replace") as f:
             text = f.read()
             return text
     except FileNotFoundError:

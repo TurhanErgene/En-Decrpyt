@@ -29,11 +29,11 @@ def decrypt(text, secret_key):
     return result
 
 
-with open("sb224sc_transpos.txt", "r") as f:
+with open("sb224sc_transpos.txt", "r", encoding="utf-8", errors="replace") as f:
     text = f.read()
 
 
-for i in range(1, 10):
+for i in range(1, 5):
     print(f"Key: {i}")
     print(decrypt(text, i))
     print()
